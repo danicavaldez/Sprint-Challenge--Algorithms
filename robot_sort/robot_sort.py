@@ -97,7 +97,36 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        # Start sorting at 0 with none
+        self.set_light_on()
+        # Pickup first item at 0 index
+        self.swap_item()
+
+        # Will continue to look until sorting is finished(break)
+        while True:
+            # Every move to the right will compare items in hand with item in current position. If item in hand is larger, swap. When we cannot move to the right anymore we will start moving to the left (line 118)
+            while self.move_right():
+                if self.compare_item() == 1:
+                    self.swap_item()
+
+            # When None has made it all the way to the last positiion and cannot move to the right, swap none with held item. Sorting has finished. 
+            if (self.compare_item() == None) and (self.can_move_right() == False):
+                self.swap_item()
+                self.set_light_off()
+                break
+
+            # Move to the left until we pickup none and swap with the next right. Break this loop, and start again sorting towards the right
+            while self.move_left():
+                if self.compare_item() == None:
+                    self.swap_item()
+                    self.move_right()
+                    self.swap_item()
+                    break
+        
+
+
+
+
 
 
 if __name__ == "__main__":
